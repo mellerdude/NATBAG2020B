@@ -1,12 +1,13 @@
+package core;
 import java.time.LocalDate;
 import java.time.Period;
 
 public class MyDate {
 	private int day, month, year;
-	private int hour,minute;
+	private int hour, minute;
 	private final static int[] DAYS_MONTHS = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	public MyDate(int day, int month, int year,int hour,int minute) {
+	public MyDate(int day, int month, int year, int hour, int minute) {
 		if (day >= 1 && day <= 31) {
 			this.day = day;
 		} else {
@@ -30,7 +31,7 @@ public class MyDate {
 		if (minute >= 0 && minute < 60) {
 			this.minute = minute;
 		} else {
-			this.minute = 10;
+			this.minute = 0;
 		}
 	}
 
@@ -44,16 +45,15 @@ public class MyDate {
 
 	public String toString() {
 		String sb = new String();
-		sb+= day + "/" + month + "/" + year + ", time: ";
-		if(hour<10)
-			sb+= "0"+hour;
-		sb+= hour+":";
-		if(minute <10)
-			sb+= "0"+minute;
-		sb+= minute;
+		sb += day + "/" + month + "/" + year + ", time: ";
+		if (hour < 10)
+			sb += "0" + hour + ":";
+		else sb += hour + ":";
+		if (minute < 10)
+			sb += "0" + minute;
+		else sb += minute;
 		return sb;
 	}
-
 
 	public int daysCount(MyDate d) {
 		LocalDate enter = LocalDate.of(year, month, day);
@@ -74,6 +74,7 @@ public class MyDate {
 	public int getYear() {
 		return year;
 	}
+
 	public int getHour() {
 		return hour;
 	}
