@@ -10,6 +10,8 @@ public class Flight {
 	private int numOfPassengers;
 	private String city;
 	private int terminal;
+	//test commit user 2
+	private int shmulik;
 
 	public Flight(String company, String flightCode, MyDate FlightDate, int numOfPassengers, String d, int terminal) {
 		this.company = company;
