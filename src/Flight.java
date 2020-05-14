@@ -10,7 +10,7 @@ public class Flight {
 	private int numOfPassengers;
 	private String city;
 	private int terminal;
-asd
+
 	public Flight(String company, String flightCode, MyDate FlightDate, int numOfPassengers, String d, int terminal) {
 		this.company = company;
 		this.flightCode = flightCode;
