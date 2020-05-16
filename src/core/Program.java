@@ -45,10 +45,10 @@ public class Program {
 				numOfFlights++;
 				break;
 			case 3:
-				System.out.println(Flight.showFlightByDate(arrival,true));
+				showFlightMenu(in,departure,false);
 				break;
 			case 4:
-				System.out.println(Flight.showFlightByDate(departure,false));
+				showFlightMenu(in,arrival,true);
 				break;
 			case 5:
 				System.out.println(Flight.showFlightsFromFile(f,numOfFlights));
@@ -62,13 +62,41 @@ public class Program {
 
 		} while (selection != -1);
 	}
+	
+	
+	private static void showFlightMenu(Scanner in,List flight,boolean isArrival) {
+		int select;
+		System.out.println("You Selected Show Flights please enter your selection \n"
+				+ "1-Show by Date\n2-Show by City\n3-Show by Country\n"
+				+ "4-Show specific Dates");
+		select = in.nextInt(); 
+		switch(select) {
+		case 1:
+			System.out.println("Flights By Date");
+			System.out.println(Flight.showFlightByDate(flight,isArrival));
+			break;
+		case 2:
+			System.out.println("Flights By City");
+			System.out.println(Flight.showFlightByCity(flight,isArrival));
+			break;
+		case 3:
+			System.out.println("Flights By Country");
+			System.out.println(Flight.showFlightByCountry(flight,isArrival));
+			break;
+		case 4:
+			System.out.println("Flights By specific Dates");
+			break;
+		}
+		
+	}
+
 
 	public static void enterFlight(Scanner in, boolean isDeparture, List flight, File f) throws FileNotFoundException {
 		String company;
 		String flightCode;
 		MyDate FlightDate;
 		int day,month,year,terminal;
-		String city;
+		String city,country;
 		System.out.println("Let's enter your flight\n" + "What is the company your travelling with?");
 		company = in.next();
 		System.out.println("what is the flight code?");
@@ -88,9 +116,11 @@ public class Program {
 			in.nextLine();
 			city = in.nextLine();
 		}
+		System.out.println("What is the country?");
+		country = in.nextLine();
 		System.out.println("What is the number of the terminal?");
 		terminal=in.nextInt();
-		Flight tempF = new Flight(company, flightCode, FlightDate, city,terminal);
+		Flight tempF = new Flight(company, flightCode, FlightDate, city,country,terminal);
 		flight.add(tempF);
 		PrintWriter pw = new PrintWriter(f);
 		for (int i = 0; i < flight.size(); i++) {
