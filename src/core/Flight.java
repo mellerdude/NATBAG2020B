@@ -1,5 +1,9 @@
 package core;
 
+import Flight;
+import MyDate;
+import String;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -112,7 +116,7 @@ public class Flight {
 	public static String showFlightByCountry(List flight,boolean isArrival) {
 		StringBuilder sb = new StringBuilder("The list of the flights organized by city is: \n");
 		Comparator<Flight> compareByCountry = new Comparator<Flight>() {
-			@Override
+			
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
 			// return -1 if c1<c2, 1 if c1>c2, 0 if c1==c2
 			public int compare(Flight o1, Flight o2) {
@@ -147,9 +151,9 @@ public class Flight {
 	}
 
 	public static String showFlightByDate(List flight, boolean isArrival) {
-		StringBuilder sb = new StringBuilder("The list of the flights is: \n");
+		StringBuilder sb = new StringBuilder();
 		Comparator<Flight> compareByTime = new Comparator<Flight>() {
-			@Override
+			
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
 			public int compare(Flight o1, Flight o2) {
 				if (o1.getFlightDate().getYear() < o2.getFlightDate().getYear())
@@ -182,6 +186,32 @@ public class Flight {
 		}
 
 		return sb.toString();
+	}
+	public static String showFlightsFromDateToDate(List<Flight> flight, MyDate startDate, MyDate endDate,boolean isArrival) {
+		ArrayList<Flight> tempList = new ArrayList<Flight>();
+		for (int i = 0; i < flight.size(); i++) {
+				if ((flight.get(i).getFlightDate().getYear() == startDate.getYear())
+						&& (flight.get(i).getFlightDate().getYear() == endDate.getYear())) {
+					if ((flight.get(i).getFlightDate().getMonth() == startDate.getMonth())
+							&& (flight.get(i).getFlightDate().getMonth() == endDate.getMonth())) {
+						if ((flight.get(i).getFlightDate().getDay() >= startDate.getDay())
+								&& (flight.get(i).getFlightDate().getDay() <= endDate.getDay())) {
+							if ((flight.get(i).getFlightDate().getDay() >= startDate.getDay())
+									&& (flight.get(i).getFlightDate().getDay() <= endDate.getDay())) {
+								tempList.add(flight.get(i));
+							}
+						}
+					} else if ((flight.get(i).getFlightDate().getMonth() >= startDate.getMonth())
+							&& (flight.get(i).getFlightDate().getMonth() <= endDate.getMonth())) {
+						tempList.add(flight.get(i));
+					}
+				} else if ((flight.get(i).getFlightDate().getYear() >= startDate.getYear())
+						&& (flight.get(i).getFlightDate().getYear() <= endDate.getYear())) {
+					tempList.add(flight.get(i));
+				}
+			}
+		
+		return showFlightByDate(tempList,isArrival);
 	}
 
 	public static String showFlightsFromFile(File f, int numOfFlights) throws FileNotFoundException {

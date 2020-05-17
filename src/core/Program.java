@@ -1,4 +1,7 @@
 package core;
+import Flight;
+import MyDate;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -66,7 +69,7 @@ public class Program {
 	
 	private static void showFlightMenu(Scanner in,List flight,boolean isArrival) {
 		int select;
-		System.out.println("You Selected Show Flights please enter your selection \n"
+		System.out.println("You Selected Show Flights. please enter your selection \n"
 				+ "1-Show by Date\n2-Show by City\n3-Show by Country\n"
 				+ "4-Show specific Dates");
 		select = in.nextInt(); 
@@ -84,7 +87,14 @@ public class Program {
 			System.out.println(Flight.showFlightByCountry(flight,isArrival));
 			break;
 		case 4:
-			System.out.println("Flights By specific Dates");
+			System.out.println("Flights By specific Dates: \nenter start date");
+			MyDate startDate = new MyDate(in.nextInt(), in.nextInt(),in.nextInt(),in.nextInt(),in.nextInt());
+			System.out.println("enter end date");
+			MyDate endDate = new MyDate(in.nextInt(), in.nextInt(),in.nextInt(),in.nextInt(),in.nextInt());
+			System.out.println(Flight.showFlightsFromDateToDate(flight,startDate,endDate,isArrival));
+
+
+
 			break;
 		}
 		
