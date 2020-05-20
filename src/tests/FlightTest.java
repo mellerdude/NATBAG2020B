@@ -70,5 +70,41 @@ class FlightTest {
 				+ " time: 10:10, Destination=london, Country=England\n");
 		assertEquals(str.toString(), Flight.showFlightsFromFile(f, 1,false));
 	}
+	//test if arrange by Country
+	@Test
+	public void testByCountryFlight() {
+		MyDate dateLondon = new MyDate(20, 5, 2020, 10, 10);
+		MyDate dateNewYork = new MyDate(20, 5, 2020, 0, 45);
+		Flight newYork = new Flight("elal", "ly001", dateNewYork, "newYork", "USA", 3);
+		Flight london = new Flight("elal", "ly315", dateLondon, "london", "England", 3);
+		List<Flight> Arrivals = new ArrayList<Flight>();
+		Arrivals.add(newYork);
+		Arrivals.add(london);
+		StringBuffer str = new StringBuffer("The list of the flights organized by country is: \n");
+		str.append("The list of arrivals is:");
+		str.append(
+				"Arrival Flight:company=elal, terminal=3, flightCode=ly315, FlightDate=20/1/2020, time: 10:10, Origin=london, Country=England\n");
+		str.append(
+				"Arrival Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/1/2020, time: 00:45, Origin=newYork, Country=USA\n");
+		assertEquals(str.toString(), Flight.showFlightByCountry(Arrivals, true));
+	}
+	//test if arrange by City
+	@Test
+	public void testByCityFlight() {
+		MyDate dateLondon = new MyDate(20, 5, 2020, 10, 10);
+		MyDate dateNewYork = new MyDate(20, 5, 2020, 0, 45);
+		Flight newYork = new Flight("elal", "ly001", dateNewYork, "newYork", "USA", 3);
+		Flight london = new Flight("elal", "ly315", dateLondon, "london", "England", 3);
+		List<Flight> Arrivals = new ArrayList<Flight>();
+		Arrivals.add(newYork);
+		Arrivals.add(london);
+		StringBuffer str = new StringBuffer("The list of the flights organized by city is: \n");
+		str.append("The list of arrivals is:");
+		str.append(
+				"Arrival Flight:company=elal, terminal=3, flightCode=ly315, FlightDate=20/1/2020, time: 10:10, Origin=london, Country=England\n");
+		str.append(
+				"Arrival Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/1/2020, time: 00:45, Origin=newYork, Country=USA\n");
+		assertEquals(str.toString(), Flight.showFlightByCity(Arrivals, true));
+	}
 
 }
