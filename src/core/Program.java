@@ -1,7 +1,6 @@
 package core;
-import Flight;
-import MyDate;
-
+import core.Flight;
+import core.MyDate;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -54,10 +53,10 @@ public class Program {
 				showFlightMenu(in,arrival,true);
 				break;
 			case 5:
-				System.out.println(Flight.showFlightsFromFile(f,numOfFlights));
+				System.out.println(Flight.showFlightsFromFile(f,numOfFlights,true));
 				break;
 			case 6:
-				System.out.println(Flight.showFlightsFromFile(g, numOfFlights));
+				System.out.println(Flight.showFlightsFromFile(g, numOfFlights,false));
 				break;
 			default:
 				break;
