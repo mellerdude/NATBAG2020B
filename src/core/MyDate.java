@@ -13,7 +13,7 @@ public class MyDate {
 		} else {
 			this.day = 1;
 		}
-		if (month >= 1 && day <= 12) {
+		if (month >= 1 && month <= 12) {
 			this.month = month;
 		} else {
 			this.month = 1;

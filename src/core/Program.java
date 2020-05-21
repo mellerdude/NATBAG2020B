@@ -47,10 +47,10 @@ public class Program {
 				numOfFlights++;
 				break;
 			case 3:
-				showFlightMenu(in,departure,false);
+				showFlightMenu(in,arrival,true);
 				break;
 			case 4:
-				showFlightMenu(in,arrival,true);
+				showFlightMenu(in,departure,false);
 				break;
 			case 5:
 				System.out.println(Flight.showFlightsFromFile(f,numOfFlights,true));

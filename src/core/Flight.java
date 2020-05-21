@@ -204,8 +204,20 @@ public class Flight {
 					tempList.add(flight.get(i));
 				}
 			} else if ((flight.get(i).getFlightDate().getYear() >= startDate.getYear())
-					&& (flight.get(i).getFlightDate().getYear() <= endDate.getYear())) {
+					&& (flight.get(i).getFlightDate().getYear() < endDate.getYear())) {
+
 				tempList.add(flight.get(i));
+
+			} else if ((flight.get(i).getFlightDate().getYear() >= startDate.getYear())
+					&& (flight.get(i).getFlightDate().getYear() == endDate.getYear())) {
+				if (flight.get(i).getFlightDate().getMonth() < endDate.getMonth()) {
+					tempList.add(flight.get(i));
+
+				} else if (flight.get(i).getFlightDate().getMonth() == endDate.getMonth()) {
+					if (flight.get(i).getFlightDate().getDay() <= endDate.getDay()) {
+						tempList.add(flight.get(i));
+					}
+				}
 			}
 		}
 
