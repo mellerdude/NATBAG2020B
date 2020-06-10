@@ -1,19 +1,15 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import core.Flight;
-import core.MyDate;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import org.junit.*;
-import org.junit.jupiter.api.Test;
+
 import core.Flight;
 import core.MyDate;
 
@@ -33,8 +29,8 @@ class FlightTest {
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/5/2020, time: 00:45, Origin=newYork, Country=USA\n");
 		str.append(
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly315, FlightDate=20/5/2020, time: 10:10, Origin=london, Country=England\n");
-
-		assertEquals(str.toString(), Flight.showFlightByDate(Arrivals, true));
+		Arrivals = Flight.showFlightByDate(Arrivals);
+		assertEquals(str.toString(), Flight.showWantedFlight(Arrivals, "Date", true));
 	}
 
 	@Test
@@ -51,8 +47,8 @@ class FlightTest {
 				"Departure Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/5/2020, time: 00:45, Destination=newYork, Country=USA\n");
 		str.append(
 				"Departure Flight:company=elal, terminal=3, flightCode=ly315, FlightDate=20/5/2020, time: 10:10, Destination=london, Country=England\n");
-
-		assertEquals(str.toString(), Flight.showFlightByDate(Departures, false));
+		Departures = Flight.showFlightByDate(Departures);
+		assertEquals(str.toString(), Flight.showWantedFlight(Departures, "Date", false));
 	}
 
 	@Test
@@ -86,7 +82,8 @@ class FlightTest {
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly315, FlightDate=20/5/2020, time: 10:10, Origin=london, Country=England\n");
 		str.append(
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/5/2020, time: 00:45, Origin=newYork, Country=USA\n");
-		assertEquals(str.toString(), Flight.showFlightByCountry(Arrivals, true));
+		Arrivals = Flight.showFlightByCountry(Arrivals);
+		assertEquals(str.toString(), Flight.showWantedFlight(Arrivals, "Country", true));
 	}
 	//test if arrange by City
 	@Test
@@ -104,7 +101,8 @@ class FlightTest {
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly315, FlightDate=20/5/2020, time: 10:10, Origin=london, Country=England\n");
 		str.append(
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/5/2020, time: 00:45, Origin=newYork, Country=USA\n");
-		assertEquals(str.toString(), Flight.showFlightByCity(Arrivals, true));
+		Arrivals = Flight.showFlightByCity(Arrivals);
+		assertEquals(str.toString(), Flight.showWantedFlight(Arrivals, "City", true));
 	}
 	@Test
 	public void testArrivalFlightsFromDateToDate() {
@@ -132,7 +130,7 @@ class FlightTest {
 				"Arrival Flight:company=elal, terminal=3, flightCode=ly021, FlightDate=4/9/2019, time: 12:50, Origin=telAviv, Country=Israel\n");
 		str.append(
 				"Arrival Flight:company=aeroflot, terminal=2, flightCode=978, FlightDate=5/3/2020, time: 09:13, Origin=moscow, Country=Russia\n");
-		assertEquals(str.toString(), Flight.showFlightsFromDateToDate(flights, startDate, endDate, true));
+		assertEquals(str.toString(), Flight.showFlightsFromDateToDate(flights, startDate, endDate));
 	}
 	@Test
 	public void testDepartureFlightsFromDateToDate() {
@@ -156,7 +154,7 @@ class FlightTest {
 				"Departure Flight:company=elal, terminal=3, flightCode=ly021, FlightDate=4/9/2019, time: 12:50, Destination=telAviv, Country=Israel\n");
 		str.append(
 				"Departure Flight:company=aeroflot, terminal=2, flightCode=978, FlightDate=5/3/2020, time: 09:13, Destination=moscow, Country=Russia\n");
-		assertEquals(str.toString(), Flight.showFlightsFromDateToDate(flights, startDate, endDate, false));
+		assertEquals(str.toString(), Flight.showFlightsFromDateToDate(flights, startDate, endDate));
 	}
 
 }

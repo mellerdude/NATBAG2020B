@@ -5,10 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 public class Program {
@@ -66,7 +62,7 @@ public class Program {
 	}
 	
 	
-	private static void showFlightMenu(Scanner in,List flight,boolean isArrival) {
+	private static void showFlightMenu(Scanner in,List<Flight> flight,boolean isArrival) {
 		int select;
 		System.out.println("You Selected Show Flights. please enter your selection \n"
 				+ "1-Show by Date\n2-Show by City\n3-Show by Country\n"
@@ -75,32 +71,36 @@ public class Program {
 		switch(select) {
 		case 1:
 			System.out.println("Flights By Date");
-			System.out.println(Flight.showFlightByDate(flight,isArrival));
+			flight = Flight.showFlightByDate(flight);
+			System.out.println(Flight.showWantedFlight(flight,"Date",isArrival));
 			break;
 		case 2:
 			System.out.println("Flights By City");
-			System.out.println(Flight.showFlightByCity(flight,isArrival));
+			flight = Flight.showFlightByCity(flight);
+			System.out.println(Flight.showWantedFlight(flight,"City",isArrival));
 			break;
 		case 3:
 			System.out.println("Flights By Country");
-			System.out.println(Flight.showFlightByCountry(flight,isArrival));
+			flight = Flight.showFlightByCountry(flight);
+			System.out.println(Flight.showWantedFlight(flight,"Country",isArrival));
 			break;
 		case 4:
 			System.out.println("Flights By specific Dates: \nenter start date");
 			MyDate startDate = new MyDate(in.nextInt(), in.nextInt(),in.nextInt(),in.nextInt(),in.nextInt());
 			System.out.println("enter end date");
 			MyDate endDate = new MyDate(in.nextInt(), in.nextInt(),in.nextInt(),in.nextInt(),in.nextInt());
-			System.out.println(Flight.showFlightsFromDateToDate(flight,startDate,endDate,isArrival));
-
-
-
+			flight = Flight.showFlightsFromDateToDate(flight,startDate,endDate);
+			System.out.println(Flight.showWantedFlight(flight,"specific Dates",isArrival));
 			break;
+			//show by company, show by Airport
 		}
 		
 	}
+	
+	
 
 
-	public static void enterFlight(Scanner in, boolean isDeparture, List flight, File f) throws FileNotFoundException {
+	public static void enterFlight(Scanner in, boolean isDeparture, List<Flight> flight, File f) throws FileNotFoundException {
 		String company;
 		String flightCode;
 		MyDate FlightDate;
