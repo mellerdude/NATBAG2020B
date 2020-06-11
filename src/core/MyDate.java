@@ -43,6 +43,8 @@ public class MyDate {
 		this.minute = other.minute;
 	}
 
+	public MyDate() {
+	}
 	public String toString() {
 		String sb = new String();
 		sb += day + "/" + month + "/" + year + ", time: ";

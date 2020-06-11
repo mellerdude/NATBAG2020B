@@ -8,17 +8,21 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.UnaryOperator;
 
 public class Flight {
 	private String company;
+	private String airport;
 	private String flightCode;
 	private MyDate FlightDate;
 	private String city;
 	private String country;
 	private int terminal;
 
-	public Flight(String company, String flightCode, MyDate FlightDate, String d, String coun, int terminal) {
+	public Flight(String company, String airport, String flightCode, MyDate FlightDate, String d, String coun,
+			int terminal) {
 		this.company = company;
+		this.airport = airport;
 		this.flightCode = flightCode;
 		this.FlightDate = new MyDate(FlightDate);
 		this.terminal = terminal;
@@ -26,13 +30,20 @@ public class Flight {
 		this.country = coun;
 	}
 
+	public Flight() {
+		this("", "", "", new MyDate(), "", "", 0);
+
+	}
+
 	public String showString(boolean isArrival) {
 		if (isArrival == true) {
-			return "Arrival Flight:company=" + company + ", terminal=" + terminal + ", flightCode=" + flightCode
-					+ ", FlightDate=" + FlightDate + ", Origin=" + city + ", Country=" + country + "\n";
+			return "Arrival Flight:company=" + company + ", airport=" + airport + ", terminal=" + terminal
+					+ ", flightCode=" + flightCode + ", FlightDate=" + FlightDate + ", Origin=" + city + ", Country="
+					+ country + "\n";
 		} else {
-			return "Departure Flight:company=" + company + ", terminal=" + terminal + ", flightCode=" + flightCode
-					+ ", FlightDate=" + FlightDate + ", Destination=" + city + ", Country=" + country + "\n";
+			return "Departure Flight:company=" + company + ", airport=" + airport + ", terminal=" + terminal
+					+ ", flightCode=" + flightCode + ", FlightDate=" + FlightDate + ", Destination=" + city
+					+ ", Country=" + country + "\n";
 		}
 	}
 
@@ -48,6 +59,10 @@ public class Flight {
 		return company;
 	}
 
+	public String getAirport() {
+		return airport;
+	}
+
 	public String getFlightCode() {
 		return flightCode;
 	}
@@ -61,57 +76,112 @@ public class Flight {
 	}
 
 	public void save(PrintWriter pw) throws FileNotFoundException {
-//		Flight:company=elal, terminal=3, flightCode=ly001, FlightDate=20/1/2020, time: 00:45, City=newYork\n
+//		Flight:company=elal, airport=JFK, terminal=3, flightCode=ly001, FlightDate=20/1/2020, time: 00:45, City=newYork\n
 		pw.println(company);
+		pw.println(airport);
 		pw.println(terminal);
 		pw.println(flightCode);
 		pw.println(FlightDate);
 		pw.println(city);
 		pw.println(country);
 	}
-	
-	//show the final list
-	public static List<Flight> showFlightByFilters(List<Flight> flight,MyDate startDate,MyDate endDate,String city,String country) {
+
+	// show the final list
+	public static String showFlightByFilters(List<Flight> flight, MyDate startDate, MyDate endDate, String city,
+			String country, String company, String airport, boolean isArrival) {
 		List<Flight> tempFlight = new ArrayList<Flight>();
-		//sort by date & take the wanted dates
-		flight = showFlightsFromDateToDate(flight,startDate,endDate);
-		//sort by city & take the wanted city
-		if (city !="") {
+		// sort by date & take the wanted dates
+		boolean noDate = startDate.getDay() == 0;
+		if (!noDate) {
+			flight = showFlightsFromDateToDate(flight, startDate, endDate);
+		}
+		// sort by city & take the wanted city
+		if (!city.equals("")) {
 			flight = showFlightByCity(flight);
 			char comperableChar = city.charAt(0);
 			for (int i = 0; i < flight.size(); i++) {
 				char existentChar = flight.get(i).getCity().charAt(0);
 				if (existentChar == comperableChar) {
-					if(city == flight.get(i).getCity()) {
+					if (city.equalsIgnoreCase(flight.get(i).getCity())) {
 						tempFlight.add(flight.get(i));
 					}
 				}
 			}
+			tempFlight = showFlightByCountry(tempFlight);
+			flight = new ArrayList<Flight>(tempFlight);
+			tempFlight.clear();
 		}
-		tempFlight = showFlightByCountry(tempFlight);
-		flight = tempFlight;
-		tempFlight.clear();
-		//sort by country & take the wanted country
-		if(country != "") {
+		// sort by country & take the wanted country
+		if (!country.equals("")) {
 			flight = showFlightByCountry(flight);
 			char comperableChar = country.charAt(0);
 			for (int i = 0; i < flight.size(); i++) {
 				char existentChar = flight.get(i).getCountry().charAt(0);
 				if (existentChar == comperableChar) {
-					if(country == flight.get(i).getCountry()) {
+					if (country.equalsIgnoreCase(flight.get(i).getCountry())) {
 						tempFlight.add(flight.get(i));
 					}
 				}
 			}
+			flight = new ArrayList<Flight>(tempFlight);
+			tempFlight.clear();
 		}
-		flight = tempFlight;
-		tempFlight.clear();
-		return flight;
+		// sort by company & take the wanted country
+		if (!company.equals("")) {
+			flight = showFlightByCountry(flight);
+			char comperableChar = company.charAt(0);
+			for (int i = 0; i < flight.size(); i++) {
+				char existentChar = flight.get(i).getCompany().charAt(0);
+				if (existentChar == comperableChar) {
+					if (company.equalsIgnoreCase(flight.get(i).getCompany())) {
+						tempFlight.add(flight.get(i));
+					}
+				}
+			}
+			flight = new ArrayList<Flight>(tempFlight);
+			tempFlight.clear();
+		}
+		// sort by airport & take the wanted country
+		if (!airport.equals("")) {
+			flight = showFlightByCountry(flight);
+			char comperableChar = airport.charAt(0);
+			for (int i = 0; i < flight.size(); i++) {
+				char existentChar = flight.get(i).getAirport().charAt(0);
+				if (existentChar == comperableChar) {
+					if (airport.equalsIgnoreCase(flight.get(i).getAirport())) {
+						tempFlight.add(flight.get(i));
+					}
+				}
+			}
+			flight = new ArrayList<Flight>(tempFlight);
+			tempFlight.clear();
+		}
+
+		String name="";
+		if(!city.equals("")) {
+			name+=",City";
+		}
+		if(!country.equals("")) {
+			name+=",Country";
+		}
+		if(!noDate) {
+			name+=",Specific Dates";
+		}
+		if(!company.equals("")) {
+			name+=",Company";
+		}
+		if(!airport.equals("")) {
+			name+=",airport";
+		}
+		name=name.substring(1, name.length());
+		return showWantedFlight(flight, name, isArrival);
+
+		
 	}
 
 	public static List<Flight> showFlightByCity(List<Flight> flight) {
 		Comparator<Flight> compareByCity = new Comparator<Flight>() {
-			
+
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
 			// return -1 if c1<c2, 1 if c1>c2, 0 if c1==c2
 			public int compare(Flight o1, Flight o2) {
@@ -165,7 +235,61 @@ public class Flight {
 		return flight;
 	}
 
-	public static List<Flight>  showFlightByDate(List<Flight> flight) {
+	public static List<Flight> showFlightByAirport(List<Flight> flight) {
+		Comparator<Flight> compareByAirport = new Comparator<Flight>() {
+			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
+			// return -1 if c1<c2, 1 if c1>c2, 0 if c1==c2
+			public int compare(Flight o1, Flight o2) {
+				int airport1Length = o1.getAirport().length();
+				int airport2Length = o2.getAirport().length();
+				int smallLenght = Math.min(airport1Length, airport2Length);
+				char c1, c2;
+				int diff;
+				for (int i = 0; i < smallLenght; i++) {
+					c1 = o1.getAirport().charAt(i);
+					c2 = o2.getAirport().charAt(i);
+					diff = c1 - c2;
+					if (diff < 0)
+						return -1; // c1<c2
+					if (diff > 0)
+						return 1; // c1>c2
+				}
+				return 0; // o1 == o2
+			}
+		};
+		Collections.sort(flight, compareByAirport);
+
+		return flight;
+	}
+
+	public static List<Flight> showFlightByCompany(List<Flight> flight) {
+		Comparator<Flight> compareByCompany = new Comparator<Flight>() {
+			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
+			// return -1 if c1<c2, 1 if c1>c2, 0 if c1==c2
+			public int compare(Flight o1, Flight o2) {
+				int companyt1Length = o1.getCompany().length();
+				int company2Length = o2.getCompany().length();
+				int smallLenght = Math.min(companyt1Length, company2Length);
+				char c1, c2;
+				int diff;
+				for (int i = 0; i < smallLenght; i++) {
+					c1 = o1.getAirport().charAt(i);
+					c2 = o2.getAirport().charAt(i);
+					diff = c1 - c2;
+					if (diff < 0)
+						return -1; // c1<c2
+					if (diff > 0)
+						return 1; // c1>c2
+				}
+				return 0; // o1 == o2
+			}
+		};
+		Collections.sort(flight, compareByCompany);
+
+		return flight;
+	}
+
+	public static List<Flight> showFlightByDate(List<Flight> flight) {
 		Comparator<Flight> compareByTime = new Comparator<Flight>() {
 
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
@@ -193,7 +317,7 @@ public class Flight {
 		return flight;
 	}
 
-	public static List<Flight>  showFlightsFromDateToDate(List<Flight> flight, MyDate startDate, MyDate endDate) {
+	public static List<Flight> showFlightsFromDateToDate(List<Flight> flight, MyDate startDate, MyDate endDate) {
 		ArrayList<Flight> tempList = new ArrayList<Flight>();
 		for (int i = 0; i < flight.size(); i++) {
 			if ((flight.get(i).getFlightDate().getYear() == startDate.getYear())
@@ -235,33 +359,35 @@ public class Flight {
 	public static String showFlightsFromFile(File f, int numOfFlights, boolean isArrival) throws FileNotFoundException {
 		Scanner in = new Scanner(f);
 		StringBuffer sb = new StringBuffer("The list of the ");
-		if(isArrival) 
+		if (isArrival)
 			sb.append("arrivals is:\n");
 		else
 			sb.append("departures is:\n");
 		for (int i = 0; i < numOfFlights; i++) {
-			if(isArrival)
+			if (isArrival)
 				sb.append("Arrival Flight:company=" + in.nextLine());
 			else
 				sb.append("Departure Flight:company=" + in.nextLine());
+			sb.append(", airport=" + in.nextLine());
 			sb.append(", Terminal=" + in.nextLine());
 			sb.append(", FlightCode=" + in.nextLine());
 			sb.append(", FlightDate=" + in.nextLine());
-			if(isArrival)
+			if (isArrival)
 				sb.append(", Origin=" + in.nextLine());
 			else
 				sb.append(", Destination=" + in.nextLine());
-			sb.append(", Country=" + in.nextLine() +"\n");
+			sb.append(", Country=" + in.nextLine() + "\n");
 		}
 		in.close();
 		return sb.toString();
 	}
-	public static String showWantedFlight(List<Flight> flight,String info,boolean isArrival) {
-		StringBuilder sb = new StringBuilder("The list of the flights organized by "+ info +" is: \n");
+
+	public static String showWantedFlight(List<Flight> flight, String info, boolean isArrival) {
+		StringBuilder sb;
 		if (isArrival) {
-			sb.append("The list of arrivals is:\n");
+			sb= new StringBuilder("The list of the arrivals flights organized by " + info + " is: \n");
 		} else {
-			sb.append("The list of departures is:\n");
+			sb= new StringBuilder("The list of the departures flights organized by " + info + " is: \n");
 		}
 		for (int i = 0; i < flight.size(); i++) {
 			sb.append(((Flight) flight.get(i)).showString(isArrival));
