@@ -46,6 +46,20 @@ public class Flight {
 					+ ", Country=" + country + "\n";
 		}
 	}
+	public static String showArrivalFlights(List <Flight>flight) {
+		StringBuffer sb=new StringBuffer("The list of arrivals is:\n");
+		for(int i=0;i<flight.size();i++) {
+		sb.append(flight.get(i).showString(true));
+		}
+		return sb.toString();
+	}
+	public static String showDepartureFlights(List <Flight>flight) {
+		StringBuffer sb=new StringBuffer("The list of departures is:\n");
+		for(int i=0;i<flight.size();i++) {
+		sb.append(flight.get(i).showString(false));
+		}
+		return sb.toString();
+	}
 
 	public MyDate getFlightDate() {
 		return FlightDate;
