@@ -71,45 +71,47 @@ public class Program {
 		String city = "", country = "", airport = "", company = "";
 		do {
 			System.out.println("You Selected Show Flights.\nChoose how you would like to filter the search:  \n"
-					+ "1-Show by Date\n2-Show by City\n3-Show by Country\n" + "4-Show specific Dates\n"
-					+ "5-Show Airport\n" + "6-Show Company\n" + "7-end");
+					+ "1-Show by City\n2-Show by Country\n" + "3-Show specific Dates\n"
+					+ "4-Show Airport\n" + "5-Show Company\n" + "6-end");
 			select = in.nextInt();
 			switch (select) {
+			/*
 			case 1:
 				System.out.println("Flights By Date:");
 				flight = Flight.showFlightByDate(flight);
 				break;
-			case 2:
+				*/
+			case 1:
 				System.out.println("Flights By City");
 				System.out.println("Enter selected city");
 				city = in.next();
 				break;
-			case 3:
+			case 2:
 				System.out.println("Flights By Country");
 				System.out.println("Enter selected Country");
 				country = in.next();
 				break;
-			case 4:
+			case 3:
 				System.out.println("Flights By Specific Dates: \nenter start date");
 				startDate = new MyDate(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt());
 				System.out.println("enter end date");
 				endDate = new MyDate(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt());
 				break;
-			case 5:
+			case 4:
 				System.out.println("Flights By Airport");
 				System.out.println("Enter selected Airport");
 				airport = in.next();
 				break;
-			case 6:
+			case 5:
 				System.out.println("Flights By Company");
 				System.out.println("Enter selected Company");
 				company = in.next();
 				break;
-			case 7:
-				System.out.println("Goodbay");
+			case 6:
+				System.out.println("Goodbye");
 				break;
 			}
-		} while (select != 7);
+		} while (select != 6);
 		System.out.println(
 				Flight.showFlightByFilters(flight, startDate, endDate, city, country, company, airport, isArrival));
 	}

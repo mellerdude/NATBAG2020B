@@ -60,7 +60,9 @@ public class Flight {
 		}
 		return sb.toString();
 	}
-
+	public int getTerminal() {
+		return terminal;
+	}
 	public MyDate getFlightDate() {
 		return FlightDate;
 	}
