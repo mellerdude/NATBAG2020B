@@ -4,9 +4,7 @@ import java.util.List;
 import core.Flight;
 import core.MyDate;
 
-
 public class BrowserMain {
-
 
 	public static void main(String[] args) {
 		MyDate dateLondon = new MyDate(20, 5, 2020, 10, 10);
@@ -14,14 +12,13 @@ public class BrowserMain {
 		MyDate dateTelAviv = new MyDate(4, 9, 2019, 12, 50);
 		MyDate dateSpain = new MyDate(5, 3, 2020, 9, 13);
 		MyDate dateFrance = new MyDate(5, 7, 2020, 9, 13);
-		// MyDate startDate = new MyDate(1, 8, 2018, 12, 50);
-		// MyDate endDate = new MyDate(4, 4, 2020, 12, 50);
+// MyDate startDate = new MyDate(1, 8, 2018, 12, 50);
+// MyDate endDate = new MyDate(4, 4, 2020, 12, 50);
 		Flight london = new Flight("elal", "Heathro", "ly315", dateLondon, "london", "England", 3);
 		Flight newYork = new Flight("elal", "JFK", "ly001", dateNewYork, "newYork", "USA", 3);
 		Flight telAviv = new Flight("elal", "Ben Gurion", "ly021", dateTelAviv, "telAviv", "Israel", 3);
+		Flight France = new Flight("elal", "PDG", "ib5743", dateFrance, "Paris", "France", 2);
 		Flight Barcelona = new Flight("Iberia", "El Prat", "ib5743", dateSpain, "Barcelona", "Spain", 2);
-		Flight france = new Flight("elal", "PDG", "ib5743", dateFrance, "Paris", "France", 2);
-
 		String airline = "";
 		String country = "";
 		String city = "";
@@ -48,7 +45,9 @@ public class BrowserMain {
 		flights.add(newYork);
 		flights.add(telAviv);
 		flights.add(Barcelona);
-		flights.add(france);
+		flights.add(France);
+		boolean isEqual = false;
+
 		boolean isHtml = (args.length > 0 && args[0].equalsIgnoreCase("html"));
 		boolean isArrival = args.length > 1 && args[1].equalsIgnoreCase("arrivals");
 		if (args.length > 1) {
@@ -62,10 +61,16 @@ public class BrowserMain {
 			day2 = Integer.parseInt(args[9]);
 			month2 = Integer.parseInt(args[10]);
 			year2 = Integer.parseInt(args[11]);
-
 		}
-
-		if (isHtml = true) {
+		for (int i = 0; i < flights.size(); i++) {
+			isEqual = airline.equalsIgnoreCase(flights.get(i).getCompany())
+					&& airport.equalsIgnoreCase(flights.get(i).getAirport())
+					&& city.equalsIgnoreCase(flights.get(i).getCity())
+					&& country.equalsIgnoreCase(flights.get(i).getCountry());
+		}
+		flights = Flight.showFlightsFromDateToDate(flights, new MyDate(day1, month1, year1, hour1, minute1),
+				new MyDate(day2, month2, year2, hour2, minute2));
+		if (isHtml) {
 			if (isArrival) {
 				System.out.println("<h2>The list of arrivals  flights is:</h2>");
 				System.out.println("<style>" + "table, th, td {" + "  border: 2px solid black;"
@@ -75,16 +80,8 @@ public class BrowserMain {
 						+ "<td><strong>Airport</strong></td>\r\n" + "<td><strong>Terminal</strong></td>"
 						+ "<td><strong>FlightCode</strong></td>" + "<td><strong>FlightDate</strong></td>"
 						+ "<td><strong>Origin</strong></td>" + "<td><strong>Country</strong></td>");
-				boolean isEqual = false;
-				flights = flights.get(0).showFlightsFromDateToDate(flights,
-						new MyDate(day1, month1, year1, hour1, minute1),
-						new MyDate(day2, month2, year2, hour2, minute2));
-				flights = flights.get(0).showFlightByDate(flights);
+				
 				for (int i = 0; i < flights.size(); i++) {
-					isEqual = airline.equalsIgnoreCase(flights.get(i).getCompany())
-							&& airport.equalsIgnoreCase(flights.get(i).getAirport())
-							&& city.equalsIgnoreCase(flights.get(i).getCity())
-							&& country.equalsIgnoreCase(flights.get(i).getCountry());
 					if (isEqual) {
 						System.out
 								.println("</tr>\r\n" + "<tr>\r\n" + "<td>" + flights.get(i).getCompany() + "</td>\r\n");
@@ -107,8 +104,9 @@ public class BrowserMain {
 						+ "<td><strong>Destination</strong></td>" + "<td><strong>Country</strong></td>");
 			}
 		} else {
-			Flight.showFlightByFilters(flights, new MyDate(day1, month1, year1, hour1, minute1),
-					new MyDate(day2, month2, year2, hour2, minute2), city, country, airline, airport, isArrival);
+			if (isEqual) {
+					System.out.println(Flight.showWantedFlight(flights, "City,Country,Specific Dates,Company,airport", isArrival));
+			}
 		}
 	}
 }
