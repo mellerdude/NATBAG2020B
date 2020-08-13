@@ -114,60 +114,44 @@ public class Flight {
 		// sort by city & take the wanted city
 		if (!city.equals("")) {
 			flight = showFlightByCity(flight);
-			char comperableChar = city.charAt(0);
 			for (int i = 0; i < flight.size(); i++) {
-				char existentChar = flight.get(i).getCity().charAt(0);
-				if (existentChar == comperableChar) {
 					if (city.equalsIgnoreCase(flight.get(i).getCity())) {
 						tempFlight.add(flight.get(i));
 					}
-				}
 			}
-			tempFlight = showFlightByCountry(tempFlight);
+			//tempFlight = showFlightByCountry(tempFlight);
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
 		}
 		// sort by country & take the wanted country
 		if (!country.equals("")) {
 			flight = showFlightByCountry(flight);
-			char comperableChar = country.charAt(0);
 			for (int i = 0; i < flight.size(); i++) {
-				char existentChar = flight.get(i).getCountry().charAt(0);
-				if (existentChar == comperableChar) {
 					if (country.equalsIgnoreCase(flight.get(i).getCountry())) {
 						tempFlight.add(flight.get(i));
 					}
-				}
 			}
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
 		}
-		// sort by company & take the wanted country
+		// sort by company & take the wanted company
 		if (!company.equals("")) {
-			flight = showFlightByCountry(flight);
-			char comperableChar = company.charAt(0);
+			flight = showFlightByCompany(flight);
 			for (int i = 0; i < flight.size(); i++) {
-				char existentChar = flight.get(i).getCompany().charAt(0);
-				if (existentChar == comperableChar) {
 					if (company.equalsIgnoreCase(flight.get(i).getCompany())) {
 						tempFlight.add(flight.get(i));
 					}
-				}
 			}
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
 		}
-		// sort by airport & take the wanted country
+		// sort by airport & take the wanted airport
 		if (!airport.equals("")) {
-			flight = showFlightByCountry(flight);
-			char comperableChar = airport.charAt(0);
+			flight = showFlightByAirport(flight);
 			for (int i = 0; i < flight.size(); i++) {
-				char existentChar = flight.get(i).getAirport().charAt(0);
-				if (existentChar == comperableChar) {
 					if (airport.equalsIgnoreCase(flight.get(i).getAirport())) {
 						tempFlight.add(flight.get(i));
 					}
-				}
 			}
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
@@ -175,7 +159,7 @@ public class Flight {
 
 		String name="";
 		if(!city.equals("")) {
-			name+=",City";
+			name+="City";
 		}
 		if(!country.equals("")) {
 			name+=",Country";
@@ -189,7 +173,6 @@ public class Flight {
 		if(!airport.equals("")) {
 			name+=",airport";
 		}
-		name=name.substring(1, name.length());
 		return showWantedFlight(flight, name, isArrival);
 
 		

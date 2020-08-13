@@ -7,18 +7,20 @@ import core.MyDate;
 public class BrowserMain {
 
 	public static void main(String[] args) {
+		//http://localhost:8000/departures?outformat=html&country=france&city=paris&airport=PDG&company=elal&day1=4&month1=6&year1=2020&day2=31&month2=7&year2=2020
 		MyDate dateLondon = new MyDate(20, 5, 2020, 10, 10);
 		MyDate dateNewYork = new MyDate(20, 5, 2020, 0, 45);
 		MyDate dateTelAviv = new MyDate(4, 9, 2019, 12, 50);
 		MyDate dateSpain = new MyDate(5, 3, 2020, 9, 13);
 		MyDate dateFrance = new MyDate(5, 7, 2020, 9, 13);
-// MyDate startDate = new MyDate(1, 8, 2018, 12, 50);
-// MyDate endDate = new MyDate(4, 4, 2020, 12, 50);
+		MyDate dateParis = new MyDate(4,6,2020,7,20);
+		
 		Flight london = new Flight("elal", "Heathro", "ly315", dateLondon, "london", "England", 3);
 		Flight newYork = new Flight("elal", "JFK", "ly001", dateNewYork, "newYork", "USA", 3);
 		Flight telAviv = new Flight("elal", "Ben Gurion", "ly021", dateTelAviv, "telAviv", "Israel", 3);
 		Flight France = new Flight("elal", "PDG", "ib5743", dateFrance, "Paris", "France", 2);
 		Flight Barcelona = new Flight("Iberia", "El Prat", "ib5743", dateSpain, "Barcelona", "Spain", 2);
+		Flight paris = new Flight("elal", "PDG", "blabla", dateParis, "Paris","France",2);
 		String airline = "";
 		String country = "";
 		String city = "";
@@ -46,8 +48,9 @@ public class BrowserMain {
 		flights.add(telAviv);
 		flights.add(Barcelona);
 		flights.add(France);
+		//flights.add(paris);
+		
 		boolean isEqual = false;
-
 		boolean isHtml = (args.length > 0 && args[0].equalsIgnoreCase("html"));
 		boolean isArrival = args.length > 1 && args[1].equalsIgnoreCase("arrivals");
 		if (args.length > 1) {
@@ -62,15 +65,16 @@ public class BrowserMain {
 			month2 = Integer.parseInt(args[10]);
 			year2 = Integer.parseInt(args[11]);
 		}
+		/*
 		for (int i = 0; i < flights.size(); i++) {
 			isEqual = airline.equalsIgnoreCase(flights.get(i).getCompany())
 					&& airport.equalsIgnoreCase(flights.get(i).getAirport())
 					&& city.equalsIgnoreCase(flights.get(i).getCity())
 					&& country.equalsIgnoreCase(flights.get(i).getCountry());
 		}
-		flights = Flight.showFlightsFromDateToDate(flights, new MyDate(day1, month1, year1, hour1, minute1),
-				new MyDate(day2, month2, year2, hour2, minute2));
+		*/
 		if (isHtml) {
+			isEqual = false;
 			if (isArrival) {
 				System.out.println("<h2>The list of arrivals  flights is:</h2>");
 				System.out.println("<style>" + "table, th, td {" + "  border: 2px solid black;"
@@ -80,19 +84,6 @@ public class BrowserMain {
 						+ "<td><strong>Airport</strong></td>\r\n" + "<td><strong>Terminal</strong></td>"
 						+ "<td><strong>FlightCode</strong></td>" + "<td><strong>FlightDate</strong></td>"
 						+ "<td><strong>Origin</strong></td>" + "<td><strong>Country</strong></td>");
-				
-				for (int i = 0; i < flights.size(); i++) {
-					if (isEqual) {
-						System.out
-								.println("</tr>\r\n" + "<tr>\r\n" + "<td>" + flights.get(i).getCompany() + "</td>\r\n");
-						System.out.println("<td>" + flights.get(i).getAirport() + "</td>\r\n");
-						System.out.println("<td>" + flights.get(i).getTerminal() + "</td>\r\n");
-						System.out.println("<td>" + flights.get(i).getFlightCode() + "</td>\r\n");
-						System.out.println("<td>" + flights.get(i).getFlightDate() + "</td>\r\n");
-						System.out.println("<td>" + flights.get(i).getCity() + "</td>\r\n");
-						System.out.println("<td>" + flights.get(i).getCountry() + "</td>\r\n");
-					}
-				}
 			} else {
 				System.out.println("<h2>The list of departures  flights is:</h2>");
 				System.out.println("<style>" + "table, th, td {" + "  border: 2px solid black;"
@@ -103,10 +94,28 @@ public class BrowserMain {
 						+ "<td><strong>FlightCode</strong></td>" + "<td><strong>FlightDate</strong></td>"
 						+ "<td><strong>Destination</strong></td>" + "<td><strong>Country</strong></td>");
 			}
-		} else {
-			if (isEqual) {
-					System.out.println(Flight.showWantedFlight(flights, "City,Country,Specific Dates,Company,airport", isArrival));
+
+			flights = Flight.showFlightsFromDateToDate(flights, new MyDate(day1, month1, year1, hour1, minute1),
+					new MyDate(day2, month2, year2, hour2, minute2));
+			flights = Flight.showFlightByDate(flights);
+			for (int i = 0; i < flights.size(); i++) {
+				isEqual = airline.equalsIgnoreCase(flights.get(i).getCompany())
+						&& airport.equalsIgnoreCase(flights.get(i).getAirport())
+						&& city.equalsIgnoreCase(flights.get(i).getCity())
+						&& country.equalsIgnoreCase(flights.get(i).getCountry());
+				if (isEqual) {
+					System.out.println("</tr>\r\n" + "<tr>\r\n" + "<td>" + flights.get(i).getCompany() + "</td>\r\n");
+					System.out.println("<td>" + flights.get(i).getAirport() + "</td>\r\n");
+					System.out.println("<td>" + flights.get(i).getTerminal() + "</td>\r\n");
+					System.out.println("<td>" + flights.get(i).getFlightCode() + "</td>\r\n");
+					System.out.println("<td>" + flights.get(i).getFlightDate() + "</td>\r\n");
+					System.out.println("<td>" + flights.get(i).getCity() + "</td>\r\n");
+					System.out.println("<td>" + flights.get(i).getCountry() + "</td>\r\n");
+				}
 			}
+		} else {
+			System.out.println(Flight.showFlightByFilters(flights, new MyDate(day1, month1, year1, hour1, minute1),
+					new MyDate(day2, month2, year2, hour2, minute2), city, country, airline, airport, isArrival));
 		}
 	}
 }
