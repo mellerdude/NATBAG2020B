@@ -46,23 +46,27 @@ public class Flight {
 					+ ", Country=" + country + "\n";
 		}
 	}
-	public static String showArrivalFlights(List <Flight>flight) {
-		StringBuffer sb=new StringBuffer("The list of arrivals is:\n");
-		for(int i=0;i<flight.size();i++) {
-		sb.append(flight.get(i).showString(true));
+
+	public static String showArrivalFlights(List<Flight> flight) {
+		StringBuffer sb = new StringBuffer("The list of arrivals is:\n");
+		for (int i = 0; i < flight.size(); i++) {
+			sb.append(flight.get(i).showString(true));
 		}
 		return sb.toString();
 	}
-	public static String showDepartureFlights(List <Flight>flight) {
-		StringBuffer sb=new StringBuffer("The list of departures is:\n");
-		for(int i=0;i<flight.size();i++) {
-		sb.append(flight.get(i).showString(false));
+
+	public static String showDepartureFlights(List<Flight> flight) {
+		StringBuffer sb = new StringBuffer("The list of departures is:\n");
+		for (int i = 0; i < flight.size(); i++) {
+			sb.append(flight.get(i).showString(false));
 		}
 		return sb.toString();
 	}
+
 	public int getTerminal() {
 		return terminal;
 	}
+
 	public MyDate getFlightDate() {
 		return FlightDate;
 	}
@@ -104,10 +108,12 @@ public class Flight {
 
 	// show the final list
 	public static String showFlightByFilters(List<Flight> flight, MyDate startDate, MyDate endDate, String city,
-			String country, String company, String airport, boolean isArrival) {
+			String country, String company, String airport, boolean isArrival, boolean monday, boolean tuesday,
+			boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
 		List<Flight> tempFlight = new ArrayList<Flight>();
 		// sort by date & take the wanted dates
 		boolean noDate = startDate.getDay() == 0;
+		removeDaysOfTheWeek(flight, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
 		if (!noDate) {
 			flight = showFlightsFromDateToDate(flight, startDate, endDate);
 		}
@@ -115,11 +121,11 @@ public class Flight {
 		if (!city.equals("")) {
 			flight = showFlightByCity(flight);
 			for (int i = 0; i < flight.size(); i++) {
-					if (city.equalsIgnoreCase(flight.get(i).getCity())) {
-						tempFlight.add(flight.get(i));
-					}
+				if (city.equalsIgnoreCase(flight.get(i).getCity())) {
+					tempFlight.add(flight.get(i));
+				}
 			}
-			//tempFlight = showFlightByCountry(tempFlight);
+			// tempFlight = showFlightByCountry(tempFlight);
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
 		}
@@ -127,9 +133,9 @@ public class Flight {
 		if (!country.equals("")) {
 			flight = showFlightByCountry(flight);
 			for (int i = 0; i < flight.size(); i++) {
-					if (country.equalsIgnoreCase(flight.get(i).getCountry())) {
-						tempFlight.add(flight.get(i));
-					}
+				if (country.equalsIgnoreCase(flight.get(i).getCountry())) {
+					tempFlight.add(flight.get(i));
+				}
 			}
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
@@ -138,9 +144,9 @@ public class Flight {
 		if (!company.equals("")) {
 			flight = showFlightByCompany(flight);
 			for (int i = 0; i < flight.size(); i++) {
-					if (company.equalsIgnoreCase(flight.get(i).getCompany())) {
-						tempFlight.add(flight.get(i));
-					}
+				if (company.equalsIgnoreCase(flight.get(i).getCompany())) {
+					tempFlight.add(flight.get(i));
+				}
 			}
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
@@ -149,33 +155,62 @@ public class Flight {
 		if (!airport.equals("")) {
 			flight = showFlightByAirport(flight);
 			for (int i = 0; i < flight.size(); i++) {
-					if (airport.equalsIgnoreCase(flight.get(i).getAirport())) {
-						tempFlight.add(flight.get(i));
-					}
+				if (airport.equalsIgnoreCase(flight.get(i).getAirport())) {
+					tempFlight.add(flight.get(i));
+				}
 			}
 			flight = new ArrayList<Flight>(tempFlight);
 			tempFlight.clear();
 		}
 
-		String name="";
-		if(!city.equals("")) {
-			name+="City";
+		String name = "";
+		if (monday == false || tuesday == false || wednesday == false || thursday == false || friday == false
+				|| saturday == false || sunday == false)
+			name += "Day of the week";
+		if (!city.equals("")) {
+			name += ",City";
 		}
-		if(!country.equals("")) {
-			name+=",Country";
+		if (!country.equals("")) {
+			name += ",Country";
 		}
-		if(!noDate) {
-			name+=",Specific Dates";
+		if (!noDate) {
+			name += ",Specific Dates";
 		}
-		if(!company.equals("")) {
-			name+=",Company";
+		if (!company.equals("")) {
+			name += ",Company";
 		}
-		if(!airport.equals("")) {
-			name+=",airport";
+		if (!airport.equals("")) {
+			name += ",airport";
 		}
 		return showWantedFlight(flight, name, isArrival);
 
-		
+	}
+
+	public static void removeDaysOfTheWeek(List<Flight> flight, boolean monday, boolean tuesday, boolean wednesday,
+			boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+		for (int i = 0; i < flight.size(); i++) {
+			if (monday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 1) {
+				flight.remove(i);
+			}
+			if (tuesday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 2) {
+				flight.remove(i);
+			}
+			if (wednesday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 3) {
+				flight.remove(i);
+			}
+			if (thursday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 4) {
+				flight.remove(i);
+			}
+			if (friday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 5) {
+				flight.remove(i);
+			}
+			if (saturday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 6) {
+				flight.remove(i);
+			}
+			if (sunday == false && flight.get(i).getFlightDate().getDayOfTheWeek() == 7) {
+				flight.remove(i);
+			}
+		}
 	}
 
 	public static List<Flight> showFlightByCity(List<Flight> flight) {
@@ -350,6 +385,7 @@ public class Flight {
 					}
 				}
 			}
+
 		}
 
 		return showFlightByDate(tempList);
@@ -384,9 +420,9 @@ public class Flight {
 	public static String showWantedFlight(List<Flight> flight, String info, boolean isArrival) {
 		StringBuilder sb;
 		if (isArrival) {
-			sb= new StringBuilder("The list of the arrivals flights organized by " + info + " is: \n");
+			sb = new StringBuilder("The list of the arrivals flights organized by " + info + " is: \n");
 		} else {
-			sb= new StringBuilder("The list of the departures flights organized by " + info + " is: \n");
+			sb = new StringBuilder("The list of the departures flights organized by " + info + " is: \n");
 		}
 		for (int i = 0; i < flight.size(); i++) {
 			sb.append(((Flight) flight.get(i)).showString(isArrival));

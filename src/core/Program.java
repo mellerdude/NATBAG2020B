@@ -22,7 +22,8 @@ public class Program {
 		int numOfFlights = 0;
 		List<Flight> departure = new ArrayList<Flight>();
 		List<Flight> arrival = new ArrayList<Flight>();
-		//hardcoded
+
+		// hardcoded
 		Flight london = new Flight("elal", "Heathro", "ly315", new MyDate(3, 8, 2020, 10, 10), "london", "England", 3);
 		Flight newYork = new Flight("elal", "JFK", "ly001", new MyDate(8, 3, 2020, 0, 45), "newYork", "USA", 3);
 		arrival.add(london);
@@ -66,21 +67,18 @@ public class Program {
 
 	private static void showFlightMenu(Scanner in, List<Flight> flight, boolean isArrival) {
 		int select;
+		int pickDays;
+		boolean monday = true, tuesday = true, wednesday = true, thursday = true, friday = true, saturday = true,
+				sunday = true;
 		MyDate startDate = new MyDate();
 		MyDate endDate = new MyDate();
 		String city = "", country = "", airport = "", company = "";
 		do {
 			System.out.println("You Selected Show Flights.\nChoose how you would like to filter the search:  \n"
-					+ "1-Show by City\n2-Show by Country\n" + "3-Show specific Dates\n"
-					+ "4-Show Airport\n" + "5-Show Company\n" + "6-end");
+					+ "1-Show by City\n2-Show by Country\n" + "3-Show specific Dates\n" + "4-Show Airport\n"
+					+ "5-Show Company\n" + "6-Select unwanted days of the week\n" + "7-end");
 			select = in.nextInt();
 			switch (select) {
-			/*
-			case 1:
-				System.out.println("Flights By Date:");
-				flight = Flight.showFlightByDate(flight);
-				break;
-				*/
 			case 1:
 				System.out.println("Flights By City");
 				System.out.println("Enter selected city");
@@ -108,14 +106,46 @@ public class Program {
 				company = in.next();
 				break;
 			case 6:
+				System.out.println("Flights by unwanted days of the week");
+
+				do {
+					System.out.println(
+							"Select unwanted days:\n1-monday\n2-tuesday\n3-wednesday\n4-thursday\n5-friday\n6-saturday\n7-sunday\n8 or any other key-finish");
+					pickDays = in.nextInt();
+					switch (pickDays) {
+					case 1:
+						monday = false;
+						break;
+					case 2:
+						tuesday = false;
+						break;
+					case 3:
+						wednesday = false;
+						break;
+					case 4:
+						thursday = false;
+						break;
+					case 5:
+						friday = false;
+						break;
+					case 6:
+						saturday = false;
+						break;
+					case 7:
+						sunday = false;
+						break;
+					}
+				} while (pickDays != 8);
+				break;
+			case 7:
 				System.out.println("Goodbye");
 				break;
 			}
-		} while (select != 6);
-		System.out.println(
-				Flight.showFlightByFilters(flight, startDate, endDate, city, country, company, airport, isArrival));
+		} while (select != 7);
+		System.out.println(Flight.showFlightByFilters(flight, startDate, endDate, city, country, company, airport,
+				isArrival, monday, tuesday, wednesday, thursday, friday, saturday, sunday));
 	}
-	
+
 	public static void enterFlight(Scanner in, boolean isDeparture, List<Flight> flight, File f)
 			throws FileNotFoundException {
 		String company;
