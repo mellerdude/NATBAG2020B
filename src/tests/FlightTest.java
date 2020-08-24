@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.*;
 import core.Flight;
 import core.MyDate;
 
@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 class FlightTest {
 
@@ -236,6 +236,22 @@ class FlightTest {
 		str.append("Arrival Flight:company=elal, airport=JFK, terminal=3, flightCode=ly001, FlightDate=21/5/2020, time: 00:45, Origin=newYork, Country=USA\n");
 		assertEquals(str.toString(),
 				Flight.showArrivalFlights(Flight.showFlightByDate(flights)));
+	}
+	
+	@Test
+	public void testAllFilters() {
+		MyDate dateSpain = new MyDate(5, 3, 2020, 9, 13);
+		MyDate dateFrance = new MyDate(5, 7, 2020, 9, 13);
+		Flight France = new Flight("elal", "PDG", "ib5743", dateFrance, "Paris", "France", 2);
+		Flight Barcelona = new Flight("Iberia", "El Prat", "ld324", dateSpain, "Barcelona", "Spain", 2);
+		List<Flight> flights = new ArrayList<Flight>();
+		flights.add(France);
+		flights.add(Barcelona);
+		StringBuffer str = new StringBuffer("The list of the arrivals flights organized by ,City,Country,Specific Dates,Company,airport is: \n");
+		str.append("Arrival Flight:company=elal, airport=PDG, terminal=2, flightCode=ib5743, FlightDate=5/7/2020, time: 09:13, Origin=Paris, Country=France\n");
+		assertEquals(str.toString(),Flight.showFlightByFilters(flights, new MyDate(1, 1, 2020, 9, 10),
+				new MyDate(30, 7, 2020, 9, 10), "Paris", "France", "elal", "PDG", true, true,
+				true, true, true, true, true, true));
 	}
 
 }
