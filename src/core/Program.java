@@ -17,9 +17,8 @@ public class Program {
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner in = new Scanner(System.in);
-
 		int selection = 0;
-		int numOfFlights = 0;
+		int numOfFlights = 1;
 		List<Flight> departure = new ArrayList<Flight>();
 		List<Flight> arrival = new ArrayList<Flight>();
 
@@ -29,9 +28,9 @@ public class Program {
 		arrival.add(london);
 		arrival.add(newYork);
 
-		File f = new File("Arrivals.txt");
-		File g = new File("Departures.txt");
-
+		// define files
+		File arrivalsFlie = new File("Arrivals.txt");
+		File departuresFlie = new File("Departures.txt");
 		do {
 			System.out.println("Welcome to our Flight system! please enter your selection \n"
 					+ "1-Add arrival flight\n2-Add departure flight\n3-show arrival flight\n"
@@ -39,11 +38,11 @@ public class Program {
 			selection = in.nextInt();
 			switch (selection) {
 			case 1:
-				enterFlight(in, true, arrival, f);
+				enterFlight(in, true, arrival, arrivalsFlie);
 				numOfFlights++;
 				break;
 			case 2:
-				enterFlight(in, false, departure, g);
+				enterFlight(in, false, departure, departuresFlie);
 				numOfFlights++;
 				break;
 			case 3:
@@ -53,18 +52,21 @@ public class Program {
 				showFlightMenu(in, departure, false);
 				break;
 			case 5:
-				System.out.println(Flight.showFlightsFromFile(f, numOfFlights, true));
+				System.out.println(Flight.showFlightsFromFile(arrivalsFlie, numOfFlights, true));
 				break;
 			case 6:
-				System.out.println(Flight.showFlightsFromFile(g, numOfFlights, false));
+				System.out.println(Flight.showFlightsFromFile(departuresFlie, numOfFlights, false));
+				break;
+			case 7:
+				// System.out.println(Flight.save();
 				break;
 			default:
 				break;
 			}
-
 		} while (selection != -1);
 	}
 
+	// filter selection
 	private static void showFlightMenu(Scanner in, List<Flight> flight, boolean isArrival) {
 		int select;
 		int pickDays;
@@ -146,6 +148,7 @@ public class Program {
 				isArrival, monday, tuesday, wednesday, thursday, friday, saturday, sunday));
 	}
 
+	// adding flights
 	public static void enterFlight(Scanner in, boolean isDeparture, List<Flight> flight, File f)
 			throws FileNotFoundException {
 		String company;

@@ -94,7 +94,7 @@ public class Flight {
 	public String getCountry() {
 		return country;
 	}
-
+	//save in file
 	public void save(PrintWriter pw) throws FileNotFoundException {
 //		Flight:company=elal, airport=JFK, terminal=3, flightCode=ly001, FlightDate=20/1/2020, time: 00:45, City=newYork\n
 		pw.println(company);
@@ -182,6 +182,7 @@ public class Flight {
 		if (!airport.equals("")) {
 			name += ",airport";
 		}
+
 		return showWantedFlight(flight, name, isArrival);
 
 	}
@@ -212,6 +213,7 @@ public class Flight {
 			}
 		}
 	}
+	//filter by city
 
 	public static List<Flight> showFlightByCity(List<Flight> flight) {
 		Comparator<Flight> compareByCity = new Comparator<Flight>() {
@@ -240,10 +242,9 @@ public class Flight {
 		return flight;
 
 	}
-
+	//filter by country
 	public static List<Flight> showFlightByCountry(List<Flight> flight) {
 		Comparator<Flight> compareByCountry = new Comparator<Flight>() {
-
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
 			// return -1 if c1<c2, 1 if c1>c2, 0 if c1==c2
 			public int compare(Flight o1, Flight o2) {
@@ -268,7 +269,7 @@ public class Flight {
 
 		return flight;
 	}
-
+	//filter by airport
 	public static List<Flight> showFlightByAirport(List<Flight> flight) {
 		Comparator<Flight> compareByAirport = new Comparator<Flight>() {
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
@@ -295,7 +296,7 @@ public class Flight {
 
 		return flight;
 	}
-
+	//filter by company
 	public static List<Flight> showFlightByCompany(List<Flight> flight) {
 		Comparator<Flight> compareByCompany = new Comparator<Flight>() {
 			// return -1 if o1<o2, 1 if o1>o2, 0 if o1==o2
@@ -323,6 +324,7 @@ public class Flight {
 		return flight;
 	}
 
+	// arranging flight by date
 	public static List<Flight> showFlightByDate(List<Flight> flight) {
 		Comparator<Flight> compareByTime = new Comparator<Flight>() {
 
@@ -351,6 +353,7 @@ public class Flight {
 		return flight;
 	}
 
+	// view flights by specific dates
 	public static List<Flight> showFlightsFromDateToDate(List<Flight> flight, MyDate startDate, MyDate endDate) {
 		ArrayList<Flight> tempList = new ArrayList<Flight>();
 		for (int i = 0; i < flight.size(); i++) {
@@ -400,23 +403,24 @@ public class Flight {
 			sb.append("departures is:\n");
 		for (int i = 0; i < numOfFlights; i++) {
 			if (isArrival)
-				sb.append("Arrival Flight:company=" + in.nextLine());
+				sb.append("Arrival Flight:company=" + in.next());
 			else
-				sb.append("Departure Flight:company=" + in.nextLine());
-			sb.append(", airport=" + in.nextLine());
-			sb.append(", Terminal=" + in.nextLine());
-			sb.append(", FlightCode=" + in.nextLine());
-			sb.append(", FlightDate=" + in.nextLine());
+				sb.append("Departure Flight:company=" + in.next());
+			sb.append(", airport=" + in.next());
+			sb.append(", Terminal=" + in.next());
+			sb.append(", FlightCode=" + in.next());
+			sb.append(", FlightDate=" + in.next());
 			if (isArrival)
-				sb.append(", Origin=" + in.nextLine());
+				sb.append(", Origin=" + in.next());
 			else
-				sb.append(", Destination=" + in.nextLine());
-			sb.append(", Country=" + in.nextLine() + "\n");
+				sb.append(", Destination=" + in.next());
+			sb.append(", Country=" + in.next() + "\n");
 		}
 		in.close();
 		return sb.toString();
 	}
 
+	// showing final flights(after filter)
 	public static String showWantedFlight(List<Flight> flight, String info, boolean isArrival) {
 		StringBuilder sb;
 		if (isArrival) {
@@ -431,3 +435,4 @@ public class Flight {
 		return sb.toString();
 	}
 }
+

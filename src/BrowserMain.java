@@ -7,20 +7,26 @@ import core.MyDate;
 public class BrowserMain {
 
 	public static void main(String[] args) {
-		// http://localhost:8000/departures?outformat=html&country=france&city=paris&airport=PDG&company=elal&day1=4&month1=6&year1=2020&day2=31&month2=7&year2=2020
+		//http://localhost:8000/departures?outformat=html&country=france&city=paris&airport=CDG&airline=elal&day1=4&month1=6&year1=2020&day2=31&month2=7&year2=2020&sunday=true&monday=false&tuesday=false&wednesday=true&thursday=false&friday=false&saturday=false
+	    //define dates
 		MyDate dateLondon = new MyDate(20, 5, 2020, 10, 10);
 		MyDate dateNewYork = new MyDate(20, 5, 2020, 0, 45);
 		MyDate dateTelAviv = new MyDate(4, 9, 2019, 12, 50);
 		MyDate dateSpain = new MyDate(5, 3, 2020, 9, 13);
 		MyDate dateFrance = new MyDate(5, 7, 2020, 9, 13);
-		MyDate dateParis = new MyDate(4, 6, 2020, 7, 20);
-
+		// hardcoded flights
 		Flight london = new Flight("elal", "Heathro", "ly315", dateLondon, "london", "England", 3);
 		Flight newYork = new Flight("elal", "JFK", "ly001", dateNewYork, "newYork", "USA", 3);
 		Flight telAviv = new Flight("elal", "Ben Gurion", "ly021", dateTelAviv, "telAviv", "Israel", 3);
 		Flight France = new Flight("elal", "PDG", "ib5743", dateFrance, "Paris", "France", 2);
 		Flight Barcelona = new Flight("Iberia", "El Prat", "ib5743", dateSpain, "Barcelona", "Spain", 2);
-		Flight paris = new Flight("elal", "PDG", "blabla", dateParis, "Paris", "France", 2);
+		List<Flight> flights = new ArrayList<Flight>();
+		flights.add(london);
+		flights.add(newYork);
+		flights.add(telAviv);
+		flights.add(Barcelona);
+		flights.add(France);
+		//define parameters
 		String airline = "";
 		String country = "";
 		String city = "";
@@ -42,18 +48,12 @@ public class BrowserMain {
 		boolean thursday = true;
 		boolean friday = true;
 		boolean saturday = true;
-		List<Flight> flights = new ArrayList<Flight>();
-		flights.add(london);
-		flights.add(newYork);
-		flights.add(telAviv);
-		flights.add(Barcelona);
-		flights.add(France);
-		// flights.add(paris);
-
+		
 		boolean isEqual = false;
 		boolean isHtml = (args.length > 0 && args[0].equalsIgnoreCase("html"));
 		boolean isArrival = args.length > 1 && args[1].equalsIgnoreCase("arrivals");
 		if (args.length > 1) {
+			//define parameters in html
 			country = args[2];
 			city = args[3];
 			airport = args[4];
@@ -74,6 +74,7 @@ public class BrowserMain {
 		}
 
 		if (isHtml) {
+			//define the design in html
 			isEqual = false;
 			if (isArrival) {
 				System.out.println("<h2>The list of arrivals  flights is:</h2>");
@@ -114,6 +115,7 @@ public class BrowserMain {
 				}
 			}
 		} else {
+			//define the design in terminal
 			System.out.println(Flight.showFlightByFilters(flights, new MyDate(day1, month1, year1, hour1, minute1),
 					new MyDate(day2, month2, year2, hour2, minute2), city, country, airline, airport, isArrival, monday,
 					tuesday, wednesday, thursday, friday, saturday, sunday));
