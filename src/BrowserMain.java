@@ -18,7 +18,7 @@ public class BrowserMain {
 		Flight london = new Flight("elal", "Heathro", "ly315", dateLondon, "london", "England", 3);
 		Flight newYork = new Flight("elal", "JFK", "ly001", dateNewYork, "newYork", "USA", 3);
 		Flight telAviv = new Flight("elal", "Ben Gurion", "ly021", dateTelAviv, "telAviv", "Israel", 3);
-		Flight France = new Flight("elal", "PDG", "ib5743", dateFrance, "Paris", "France", 2);
+		Flight France = new Flight("elal", "CDG", "ib5743", dateFrance, "Paris", "France", 2);
 		Flight Barcelona = new Flight("Iberia", "El Prat", "ib5743", dateSpain, "Barcelona", "Spain", 2);
 		List<Flight> flights = new ArrayList<Flight>();
 		flights.add(london);
